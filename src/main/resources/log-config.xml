@@ -1,0 +1,34 @@
+<configuration>
+    <!-- 로그 패턴에 색상 적용 %clr(pattern){color} -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <property name="DEMO"
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative]  %clr(%-5level) %clr([DEMO]) %clr(${PID:-}){magenta} %clr(---){faint} %clr([%15.15thread]){faint} %clr(%-40.40logger{36}){cyan} %clr(:){faint} %msg%n"/>
+
+    <property name="SPRING"
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative]  %clr(%-5level) %clr([SPRING]) %clr(${PID:-}){magenta} %clr(---){faint} %clr([%15.15thread]){faint} %clr(%-40.40logger{36}){cyan} %clr(:){faint} %msg%n"/>
+
+    <!-- 콘솔(STDOUT)에 log 기록 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>${DEMO}</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="INLINE_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>${SPRING}</Pattern>
+        </layout>
+    </appender>
+
+    <!-- log root 레벨 설정 (logging.level.root=info)-->
+    <Root level="INFO">
+        <!--     참조할 appender 설정 - STDOUT -->
+        <appender-ref ref="STDOUT" />
+    </Root>
+
+    <logger name="org.springframework.web" level="DEBUG" additivity="false">
+        <appender-ref ref="INLINE_STDOUT" />
+    </logger>
+
+</configuration>
