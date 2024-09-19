@@ -22,7 +22,7 @@ configurations {
 ext {
     assertJVersion = '3.26.3'
     byteBuddyVersion = '1.14.18'
-    hamcrestVersion = '2.2'
+    guavaVersion = '33.0.0-jre'
 }
 
 repositories {
@@ -44,6 +44,7 @@ dependencies {
     testImplementation 'org.projectlombok:lombok'
     testImplementation "org.assertj:assertj-core:${assertJVersion}"
     implementation "net.bytebuddy:byte-buddy:${byteBuddyVersion}"
+    implementation "com.google.guava:guava:${guavaVersion}"
 
 }
 

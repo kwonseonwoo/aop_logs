@@ -1,10 +1,16 @@
 package com.example.demo.aop.controller;
 
 
+import com.example.demo.aop.annotation.ReflectionLogs;
+import com.example.demo.aop.dto.GetResponseDto;
+import com.example.demo.aop.dto.PostResponseDto;
+import com.example.demo.aop.service.AopService;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,13 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/aop")
 public class AopController {
 
-    //private final Service service;
+    private final AopService aopService;
 
     @GetMapping("/get")
-    public ResponseEntity<Void> getApiMethod() {
-        // aop 로그 처리만 확인할 것이기 때문에
-        // service 로직은 주석처리...
-        //service.method();
-        return null;
+    @ReflectionLogs(depth = 2, names = {"results", "userId"}, type = ReflectionLogs.LogType.PART_FIELD)
+    public ResponseEntity<GetResponseDto> getApiMethod() {
+        return ResponseEntity.ok(aopService.get());
+    }
+
+    @PostMapping("/post")
+    @ReflectionLogs()
+    public ResponseEntity<PostResponseDto> postApiMethod() {
+        return ResponseEntity.ok(aopService.post());
     }
 }
